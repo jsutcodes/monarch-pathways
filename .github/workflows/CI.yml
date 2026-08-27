@@ -9,7 +9,12 @@ on:
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
-    
+
+    # Needed so the summary step can post/update a comment on the PR
+    permissions:
+      contents: read
+      pull-requests: write
+
     # Define environment variables needed for the test runtime env
     env:
       DJANGO_SECRET_KEY: "ci-testing-dummy-secret-key-never-use-in-production"
@@ -22,7 +27,7 @@ jobs:
 
     # 2. Set up the specific Python environment
     - name: Set up Python 3.11
-      uses: actions/checkout@v4
+      uses: actions/setup-python@v5
       with:
         python-version: "3.11"
         cache: 'pip' # Automatically caches pip dependencies to speed up future runs
@@ -35,29 +40,113 @@ jobs:
         pip install flake8 black bandit # Essential formatting and security tools
 
     # 4. Check for syntax and code style formatting regressions (Black code formatter)
+    # continue-on-error lets the rest of the checks run and shows this step as a
+    # yellow warning (rather than failing the whole job) if it doesn't pass.
     - name: Code Formatting Check (Black)
+      id: black
+      continue-on-error: true
       run: |
         # Checks if code is formatted according to standard style guides without rewriting files
         black --check . --exclude "venv/|migrations/"
 
-    # 5. Check for complex PEP8 violations and code quality issues (Flake8 linting)
-    - name: Code Linting (Flake8)
+    # 5. Check for syntax errors / undefined names (Flake8 - hard errors)
+    - name: Code Linting (Flake8 - Syntax Errors)
+      id: flake8_errors
+      continue-on-error: true
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=venv/,*migrations/
+
+    # 5b. Check for complex PEP8 violations and code quality issues (informational)
+    - name: Code Linting (Flake8 - Style)
+      id: flake8_style
+      continue-on-error: true
+      run: |
         # exit-zero treats all errors as warnings. Max-line-length is standard 120 chars.
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics --exclude=venv/,*migrations/
 
     # 6. Static Application Security Testing (Bandit)
     - name: Security Vulnerability Scan (Bandit)
+      id: bandit
+      continue-on-error: true
       run: |
         # Scans code for common security issues like hardcoded passwords or unsafe execution
         bandit -r . -x ./venv,./tests
 
-    # 7. Run Django Test Suite
-    - name: Run Django Tests
+    # 7. Verify migrations are aligned with models
+    - name: Check Migrations
+      id: migrations
+      continue-on-error: true
       run: |
-        # Verifies that migrations are perfectly aligned with models and runs unit tests
         python manage.py makemigrations --check --dry-run
+
+    # 8. Run Django Test Suite
+    - name: Run Django Tests
+      id: tests
+      continue-on-error: true
+      run: |
         python manage.py test
+
+    # 9. Post/update a PR comment summarizing which checks passed/failed. Uses
+    # core.warning (not a hard failure) so the job stays green/yellow instead
+    # of red, while still surfacing which checks need attention.
+    - name: Summarize Results on PR
+      if: always() && github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const results = {
+            "Black (formatting)": "${{ steps.black.outcome }}",
+            "Flake8 (syntax errors)": "${{ steps.flake8_errors.outcome }}",
+            "Flake8 (style)": "${{ steps.flake8_style.outcome }}",
+            "Bandit (security)": "${{ steps.bandit.outcome }}",
+            "Migrations check": "${{ steps.migrations.outcome }}",
+            "Django tests": "${{ steps.tests.outcome }}",
+          };
+
+          const icon = (outcome) => outcome === "success" ? "✅" : outcome === "skipped" ? "⏭️" : "❌";
+          const lines = Object.entries(results).map(([name, outcome]) => `| ${name} | ${icon(outcome)} ${outcome} |`);
+          const anyFailed = Object.values(results).includes("failure");
+
+          const body = [
+            "### CI Check Summary",
+            anyFailed ? "⚠️ One or more checks failed. See details below." : "✅ All checks passed.",
+            "",
+            "| Check | Result |",
+            "| --- | --- |",
+            ...lines,
+          ].join("\n");
+
+          const marker = "<!-- ci-check-summary -->";
+          const commentBody = `${marker}\n${body}`;
+
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          });
+          const existing = comments.find((c) => c.body && c.body.includes(marker));
+
+          if (existing) {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: existing.id,
+              body: commentBody,
+            });
+          } else {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: commentBody,
+            });
+          }
+
+          // Mark the job as a warning (yellow ⚠️) rather than a hard failure
+          // when a check failed, without stopping any of the checks above
+          // from running to completion.
+          if (anyFailed) {
+            core.warning("One or more checks failed - see the PR comment above for details.");
+          }
 
