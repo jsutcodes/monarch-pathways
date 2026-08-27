@@ -50,7 +50,7 @@ Fire up the local multi-threaded development web server:
 ```bash
 python manage.py runserver
 ```
-Open your browser and navigate to `http://127.0.0.1` to log in using the superuser credentials you just generated.
+Open your browser and navigate to `http://127.0.0.1:8000` to log in using the superuser credentials you just generated.
 
 ---
 
