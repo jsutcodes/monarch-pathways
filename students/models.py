@@ -85,7 +85,27 @@ class StudentProfile(models.Model):
 #* CAN administrators should be able to see the percentage of students with missing/not-reported information.
 #* The system should allow demographic categories to be updated without overwriting historical data.
 
-
+#Educational Profile
+#The application should track a student's educational journey over time. The "Student" is the master record, and a "StudentEducationLog" holds the historical details.
+#Current Education
+#* School
+#* Grade
+#* Graduation year
+#* School type
+#* Enrollment status
+#* Academic interests
+#* Career interests
+#Educational History
+#Track changes in:
+#* School
+#* Grade
+#* Graduation status
+#* Postsecondary enrollment
+#* Postsecondary institution
+#* Program of study
+#* Degree/certificate
+#* Graduation/completion
+#The system should preserve historical records rather than simply replacing old information.
 
 class MentorStudentAssignment(models.Model):
     mentor = models.ForeignKey(
