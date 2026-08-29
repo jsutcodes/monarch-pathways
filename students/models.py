@@ -1,6 +1,32 @@
 from django.db import models
 from django.conf import settings
 
+#TODO: create student correctly
+#Each student should have one centralized profile that follows them throughout their relationship with CAN.
+#Basic Information
+#* Student ID — automatically generated
+#* First name
+#* Last name
+#* Preferred name
+#* Pronouns
+#* Date of birth
+#* Age — automatically calculated
+#* Grade
+#* School
+#* Graduation year
+#* ZIP code/community
+#* Student status:
+#    * Active
+#    * Inactive
+#    * Graduated
+ #   * Alumni
+  #  * Other
+#Contact Information
+#* Student phone
+#* Student email
+#* Preferred communication method
+#* Parent/guardian contact information
+#* Emergency contact, if needed
 
 class MentorProfile(models.Model):
     user = models.OneToOneField(
