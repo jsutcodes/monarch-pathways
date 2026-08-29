@@ -121,3 +121,63 @@ class MentorStudentAssignment(models.Model):
 
     def __str__(self):
         return f"{self.mentor} -> {self.student}"
+
+
+#First-Generation & College Access Data
+#Because first-generation college access is central to CAN's work, the application should have dedicated fields for:
+#- First-generation status
+#- Parent/guardian education
+#- College knowledge/support needs
+#- College interest
+#- Postsecondary goals
+#- College applications
+#- College acceptances
+#- FAFSA completion
+#- CASFA completion
+#- Financial aid
+#- Scholarships
+#- College visits
+#- College representative events
+#- Postsecondary decision
+
+#6. Student Goals & Needs
+#Students should have a section where CAN can document what they want support with.
+#Goals
+#Students can select multiple:
+#- Explore college
+#- Apply to college
+#- Explore careers
+#- Find employment
+#- Apply for scholarships
+#- Complete FAFSA
+#- Complete CASFA
+#- Explore technical/trade programs
+#- Improve academic performance
+#- Build leadership skills
+#- Find a mentor
+#- Develop confidence
+#- Build community/belonging
+#- Develop wellbeing skills
+#- Explore identity/culture
+#- Other
+#Open-Ended Fields
+#- "What are you hoping to accomplish with CAN?"
+#- "What are you interested in?"
+#- "What are you good at?"
+#- "What support would be most helpful right now?"
+#Goals should be editable so CAN can track how they change over time.
+
+#7. Student Strengths & Interests
+#CAN uses an asset-based approach, so the application should not only document needs and barriers.
+#Track:
+#- Interests
+#- Talents
+#- Leadership interests
+#- Career interests
+#- Hobbies
+#- Student strengths
+#- Areas where the student wants to grow
+#Include an open-ended field:
+#"What is something you are proud of or something you feel you are good at?"
+
+
