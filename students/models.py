@@ -63,7 +63,28 @@ class StudentProfile(models.Model):
     graduation_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return f"Student: {self.user.get_full_name()}"
+        return f"Student: {self.user.get_full_Student Demographics
+
+#The system should allow CAN to collect and report demographic information while allowing students to skip sensitive questions.
+#Demographic Fields
+#* Gender identity
+#* Race
+#* Ethnicity
+#* Hispanic/Latino/a/x
+#* Languages spoken
+#* Preferred language for communication
+#* Language interpretation/translation needs
+#* Disability/accessibility needs
+#* First-generation college student status
+#* Parent/guardian education level
+#* Family/migration background — optional
+#* Other demographic fields as needed for specific funders
+#Important Requirements
+#* Include "Prefer not to answer" where appropriate.
+#* Sensitive fields should have restricted permissions.
+#* CAN administrators should be able to see the percentage of students with missing/not-reported information.
+#* The system should allow demographic categories to be updated without overwriting historical data.
+
 
 
 class MentorStudentAssignment(models.Model):
