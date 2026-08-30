@@ -1,0 +1,217 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f5f6f8;
+  color: #1a1a1a;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  background: #2f5d50;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+/* Login */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-card h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.subtitle {
+  margin: 0 0 1rem;
+  color: #666;
+}
+
+.login-card label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.login-card button {
+  margin-top: 1rem;
+}
+
+/* App shell */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #1f2d2a;
+  color: white;
+  padding: 1.5rem 1rem;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.nav-link {
+  display: block;
+  color: #d7e4df;
+  text-decoration: none;
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 0.25rem;
+}
+
+.nav-link.active {
+  background: #2f5d50;
+  color: white;
+}
+
+.main-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: white;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.topbar-user {
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.btn-link {
+  background: none;
+  color: #2f5d50;
+  padding: 0;
+  font-weight: 600;
+}
+
+.content {
+  padding: 2rem;
+}
+
+/* Students list */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  width: 260px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+  background: #f0f2f1;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #555;
+}
+
+/* Student detail */
+.back-link {
+  color: #2f5d50;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.muted {
+  color: #777;
+}
+
+.detail-form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 420px;
+  margin-top: 1rem;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-row label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.form-error {
+  color: #b3261e;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.form-success {
+  color: #1e7a34;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
