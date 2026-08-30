@@ -63,8 +63,10 @@ class StudentProfile(models.Model):
     graduation_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return f"Student: {self.user.get_full_Student Demographics
+        return f"Student: {self.user.get_full_name()}"
 
+
+#Student Demographics
 #The system should allow CAN to collect and report demographic information while allowing students to skip sensitive questions.
 #Demographic Fields
 #* Gender identity
