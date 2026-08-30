@@ -15,7 +15,8 @@ class User(AbstractUser):
     def role(self):
         """
         Resolves access privileges strictly mapped by group membership names
-        ('Admin', 'Lead_Mentor', 'Mentor', 'Student').
+        ('Admin', 'Staff', 'Reporting', 'Student'). See
+        `authentication.group_setup` for the permissions each group grants.
         """
         group = self.groups.first()
         return group.name if group else "No Role Assigned"

@@ -49,7 +49,7 @@ class UserModelTests(TestCase):
 
     def test_role_updates_when_group_membership_changes(self):
         mentor = Group.objects.create(name="Mentor")
-        admin = Group.objects.create(name="Admin")
+        admin, _ = Group.objects.get_or_create(name="Admin")
         self.user.groups.add(mentor)
         self.assertEqual(self.user.role, "Mentor")
 
@@ -181,3 +181,52 @@ class AdminRegistrationTests(TestCase):
     def test_admin_login_page_is_reachable(self):
         response = self.client.get("/admin/login/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class DefaultGroupProvisioningTests(TestCase):
+    """
+    Groups are auto-created via the `post_migrate` signal
+    (authentication.group_setup.create_default_groups), so by the time
+    the test database is built they should already exist with the
+    correct baseline permissions.
+    """
+
+    def test_all_expected_groups_exist(self):
+        names = set(Group.objects.values_list("name", flat=True))
+        self.assertEqual(
+            names, {"Admin", "Staff", "Reporting", "Student"}
+        )
+
+    def test_admin_group_has_full_access(self):
+        from django.contrib.auth.models import Permission
+
+        admin_group = Group.objects.get(name="Admin")
+        self.assertEqual(
+            admin_group.permissions.count(), Permission.objects.count()
+        )
+
+    def test_staff_group_can_view_and_edit_students(self):
+        staff_group = Group.objects.get(name="Staff")
+        codenames = set(staff_group.permissions.values_list("codename", flat=True))
+        self.assertIn("view_studentprofile", codenames)
+        self.assertIn("change_studentprofile", codenames)
+        self.assertNotIn("delete_studentprofile", codenames)
+        self.assertIn("add_meetingnote", codenames)
+
+    def test_reporting_group_is_strictly_view_only(self):
+        reporting_group = Group.objects.get(name="Reporting")
+        codenames = reporting_group.permissions.values_list("codename", flat=True)
+        for codename in codenames:
+            self.assertTrue(codename.startswith("view_"))
+        self.assertIn("view_studentprofile", codenames)
+
+    def test_student_group_can_only_view_student_profile(self):
+        student_group = Group.objects.get(name="Student")
+        codenames = set(student_group.permissions.values_list("codename", flat=True))
+        self.assertEqual(codenames, {"view_studentprofile"})
+
+    def test_user_assigned_to_admin_group_has_admin_role(self):
+        user = User.objects.create_user(username="root", password="pw")
+        user.groups.add(Group.objects.get(name="Admin"))
+        self.assertEqual(user.role, "Admin")
+
