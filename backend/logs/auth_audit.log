@@ -31,3 +31,13 @@ GROUP_PROVISIONED | Group: Admin (created=False, permissions=48)
 GROUP_PROVISIONED | Group: Staff (created=False, permissions=13)
 GROUP_PROVISIONED | Group: Reporting (created=False, permissions=5)
 GROUP_PROVISIONED | Group: Student (created=False, permissions=1)
+GROUP_PROVISIONED | Group: Admin (created=True, permissions=48)
+GROUP_PROVISIONED | Group: Staff (created=True, permissions=13)
+GROUP_PROVISIONED | Group: Reporting (created=True, permissions=5)
+GROUP_PROVISIONED | Group: Student (created=True, permissions=1)
+LOGIN_FAILED | Credentials parsed: jdoe
+LOGIN_FAILED | Credentials parsed: ghost
+GROUP_PROVISIONED | Group: Admin (created=False, permissions=48)
+GROUP_PROVISIONED | Group: Staff (created=False, permissions=13)
+GROUP_PROVISIONED | Group: Reporting (created=False, permissions=5)
+GROUP_PROVISIONED | Group: Student (created=False, permissions=1)

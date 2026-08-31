@@ -318,6 +318,17 @@ input {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
+a.program-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s ease;
+}
+
+a.program-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
 .program-card-header {
   display: flex;
   justify-content: space-between;

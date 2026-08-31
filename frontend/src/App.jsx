@@ -3,6 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
 import StudentsListPage from "./pages/StudentsListPage";
 import StudentDetailPage from "./pages/StudentDetailPage";
 import StaffListPage from "./pages/StaffListPage";
@@ -28,9 +29,10 @@ export default function App() {
           <Route path="/reporting" element={<ReportingPage />} />
           <Route path="/programs" element={<ProgramsPage />} />
           <Route path="/checklists" element={<ChecklistsPage />} />
-          <Route path="/" element={<Navigate to="/students" replace />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Route>
-        <Route path="*" element={<Navigate to="/students" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </AuthProvider>
   );

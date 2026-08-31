@@ -1,7 +1,7 @@
 # TODO: Intern Task - Implement DRF or Token-based login overrides if custom token behavior is desired.
 # Note: Basic JWT handling is natively configured via simplejwt urls.
 
-from rest_framework import permissions, viewsets
+from rest_framework import generics, permissions, viewsets
 
 from .models import User
 from .serializers import StaffSerializer
@@ -33,3 +33,17 @@ class StaffViewSet(viewsets.ReadOnlyModelViewSet):
     )
     serializer_class = StaffSerializer
     permission_classes = [IsAdminGroupOrSuperuser]
+
+
+class MeView(generics.RetrieveAPIView):
+    """
+    Returns the currently authenticated user's own profile, role, and
+    group-based permissions. Used by the frontend to decide which
+    role-specific Dashboard view to render (Admin/Staff/Reporting/Student).
+    """
+
+    serializer_class = StaffSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

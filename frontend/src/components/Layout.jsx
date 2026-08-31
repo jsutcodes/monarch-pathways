@@ -9,6 +9,9 @@ export default function Layout() {
       <aside className="sidebar">
         <div className="brand">Monarch Pathways</div>
         <nav>
+          <NavLink to="/dashboard" className="nav-link">
+            Dashboard
+          </NavLink>
           <NavLink to="/students" className="nav-link">
             Students
           </NavLink>
