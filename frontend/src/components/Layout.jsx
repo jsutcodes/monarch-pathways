@@ -12,6 +12,18 @@ export default function Layout() {
           <NavLink to="/students" className="nav-link">
             Students
           </NavLink>
+          <NavLink to="/staff" className="nav-link">
+            Staff
+          </NavLink>
+          <NavLink to="/programs" className="nav-link">
+            Programs
+          </NavLink>
+          <NavLink to="/checklists" className="nav-link">
+            Checklists
+          </NavLink>
+          <NavLink to="/reporting" className="nav-link">
+            Reporting
+          </NavLink>
         </nav>
       </aside>
       <div className="main-column">

@@ -215,3 +215,202 @@ input {
   font-size: 0.9rem;
   margin: 0.5rem 0;
 }
+
+/* Reporting */
+.form-notice {
+  background: #eef4f2;
+  border: 1px solid #d3e2dd;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #345247;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #777;
+  margin-bottom: 0.4rem;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.stat-delta {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+.stat-delta-up {
+  color: #1e7a34;
+}
+
+.stat-delta-down {
+  color: #b3261e;
+}
+
+.report-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.report-section h2 {
+  margin-top: 0;
+}
+
+.progress-bar {
+  position: relative;
+  background: #eee;
+  border-radius: 6px;
+  height: 20px;
+  width: 220px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #2f5d50;
+}
+
+.progress-bar-label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.75rem;
+  color: #1a1a1a;
+  padding-left: 0.4rem;
+  line-height: 20px;
+}
+
+/* Programs */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.program-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.program-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.program-card-header h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.program-meta {
+  margin: 0.75rem 0 0;
+}
+
+.program-meta dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #777;
+  margin-top: 0.5rem;
+}
+
+.program-meta dd {
+  margin: 0.15rem 0 0;
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.badge-active {
+  background: #e3f0ec;
+  color: #2f5d50;
+}
+
+/* Checklists */
+.checklist-card {
+  margin-bottom: 1.5rem;
+}
+
+.checklist-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.checklist-card-header h2 {
+  margin: 0 0 0.4rem;
+}
+
+.checklist-tasks {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.checklist-task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.checklist-task label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: normal;
+}
+
+.checklist-task-done {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.checklist-remove {
+  font-size: 0.8rem;
+}
+
+.checklist-add-form {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.checklist-add-form input {
+  flex: 1;
+}

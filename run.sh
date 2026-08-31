@@ -35,5 +35,15 @@ else:
     print('Superuser already exists, skipping creation.')
 "
 
+echo "==> Installing frontend dependencies..."
+(cd frontend && npm install --silent)
+
+# Start the frontend dev server in the background and make sure it's stopped
+# whenever this script exits (Ctrl+C, error, or normal completion).
+echo "==> Starting frontend dev server at http://localhost:5173 ..."
+(cd frontend && npm run dev) &
+FRONTEND_PID=$!
+trap 'echo "==> Stopping frontend dev server..."; kill "$FRONTEND_PID" 2>/dev/null || true' EXIT
+
 echo "==> Starting development server at http://127.0.0.1:8000 ..."
 python manage.py runserver
