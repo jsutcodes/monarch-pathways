@@ -47,4 +47,4 @@ Monarch Pathways is developed through a unique community partnership model:
 
 If you are a student developer or an intern joining the project engineering team, your onboarding track is fully mapped out. 
 
-Please review our step-by-step developer environment installation guidelines, local database migration scripts, and your code-level assignment roadmap inside the **[Getting Started Guide](GETTING_STARTED.md)**.
+Please review our step-by-step developer environment installation guidelines, local database migration scripts, and your code-level assignment roadmap inside the **[Getting Started Guide](docs/GETTING_STARTED.md)**.

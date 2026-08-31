@@ -5,7 +5,8 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-VENV_DIR="venv"
+BACKEND_DIR="backend"
+VENV_DIR="$BACKEND_DIR/venv"
 
 if [ ! -d "$VENV_DIR" ]; then
   echo "==> Creating virtual environment..."
@@ -17,7 +18,9 @@ source "$VENV_DIR/bin/activate"
 
 echo "==> Installing dependencies..."
 pip install --quiet --upgrade pip
-pip install --quiet -r requirements.txt
+pip install --quiet -r "$BACKEND_DIR/requirements.txt"
+
+cd "$BACKEND_DIR"
 
 echo "==> Applying migrations..."
 python manage.py makemigrations authentication students meetings
@@ -36,12 +39,12 @@ else:
 "
 
 echo "==> Installing frontend dependencies..."
-(cd frontend && npm install --silent)
+(cd ../frontend && npm install --silent)
 
 # Start the frontend dev server in the background and make sure it's stopped
 # whenever this script exits (Ctrl+C, error, or normal completion).
 echo "==> Starting frontend dev server at http://localhost:5173 ..."
-(cd frontend && npm run dev) &
+(cd ../frontend && npm run dev) &
 FRONTEND_PID=$!
 trap 'echo "==> Stopping frontend dev server..."; kill "$FRONTEND_PID" 2>/dev/null || true' EXIT
 

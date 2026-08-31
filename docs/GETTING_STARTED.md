@@ -11,8 +11,10 @@ As an intern on this project, your role will be to flesh out the core security, 
 Follow these steps exactly to clone, configure, and execute the backend engine on your local development machine.
 
 ### 1. Environment & Dependencies Isolation
-Navigate to the root directory of your cloned repository and create an isolated Python virtual environment:
+Navigate to the `backend/` directory of your cloned repository and create an isolated Python virtual environment:
 ```bash
+cd backend
+
 # Create the environment directory
 python -m venv venv
 
@@ -56,11 +58,16 @@ Open your browser and navigate to `http://127.0.0.1:8000` to log in using the su
 
 ## 📂 System Architecture Overview
 
-The codebase is organized into small, decoupled applications following standard Django design patterns:
-*   `core/`: Hosts project-wide configurations, database connections, and centralized logger pipelines routing events straight to `logs/auth_audit.log`.
-*   `authentication/`: Handles the system `User` table, token lifecycles, permissions groups, and login hook signals.
-*   `students/`: Tracks profile structures for `StudentProfile` and `MentorProfile`, alongside the tracking junctions binding them together.
-*   `meetings/`: Contains schemas managing interaction loops, private notes, and calendar items.
+The codebase is organized into small, decoupled applications following standard Django design patterns, all nested under `backend/`:
+*   `backend/core/`: Hosts project-wide configurations, database connections, and centralized logger pipelines routing events straight to `backend/logs/auth_audit.log`.
+*   `backend/authentication/`: Handles the system `User` table, token lifecycles, permissions groups, and login hook signals.
+*   `backend/students/`: Tracks profile structures for `StudentProfile` and `MentorProfile`, alongside the tracking junctions binding them together.
+*   `backend/meetings/`: Contains schemas managing interaction loops, private notes, and calendar items.
+
+Alongside `backend/`, the repository also has:
+*   `frontend/`: The React + Vite single-page app.
+*   `docs/`: Project planning and reference documentation.
+*   `openapi/`: The API specification document.
 
 ---
 
@@ -69,17 +76,17 @@ The codebase is organized into small, decoupled applications following standard 
 Your project contributions are tracked via specific tasks labeled throughout the code files. Open your IDE's task manager and filter for `TODO`. Your assignments are categorized into three major phases:
 
 ### Phase 1: Cryptographic Isolation At Rest (Data Privacy)
-*   **Locations:** `authentication/models.py`, `students/models.py`
+*   **Locations:** `backend/authentication/models.py`, `backend/students/models.py`
 *   **Objective:** Personal information (PII) including contact info, addresses, and telephone numbers must not reside as plain-text raw strings in our active database tables.
 *   **Task:** Integrate a secure field wrapper framework (such as `django-fernet-fields` or similar cryptographic engine extensions) to seamlessly encrypt data points during system write procedures and automatically decrypt them on retrieval.
 
 ### Phase 2: Signal Log Engineering (Audit & Logging)
-*   **Location:** `authentication/signals.py`
+*   **Location:** `backend/authentication/signals.py`
 *   **Objective:** Security compliance rules demand append-only log capture tracking incoming authentications to prevent auditing bypass vulnerabilities.
-*   **Task:** Complete the network string extraction parser logic inside the `log_user_login` routine. Ensure it strips incoming upstream load-balancer proxies or CDN proxy layers (e.g., parsing `HTTP_X_FORWARDED_FOR`) to accurately identify and append client source IP addresses into `logs/auth_audit.log`.
+*   **Task:** Complete the network string extraction parser logic inside the `log_user_login` routine. Ensure it strips incoming upstream load-balancer proxies or CDN proxy layers (e.g., parsing `HTTP_X_FORWARDED_FOR`) to accurately identify and append client source IP addresses into `backend/logs/auth_audit.log`.
 
 ### Phase 3: Row-Level Security Middleware (Authorization Enforcement)
-*   **Location:** `meetings/views.py`
+*   **Location:** `backend/meetings/views.py`
 *   **Objective:** Mentors must have their view access boundaries explicitly constrained. A general Mentor should never have authorization privileges to view, edit, or access meeting records or notes belonging to students they aren't directly matched with.
 *   **Task:** Write custom Django REST Framework (`DRF`) permission matrices. Inject validation logic that looks up the `MentorStudentAssignment` relationships table to systematically block access with a `403 Forbidden` error if an cross-match breach attempt is made.
 

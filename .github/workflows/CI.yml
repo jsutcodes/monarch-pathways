@@ -20,6 +20,11 @@ jobs:
       DJANGO_SECRET_KEY: "ci-testing-dummy-secret-key-never-use-in-production"
       DEBUG: "False"
 
+    # All Django code now lives under backend/, so run shell commands from there.
+    defaults:
+      run:
+        working-directory: backend
+
     steps:
     # 1. Checkout the code from GitHub repository
     - name: Checkout Code
