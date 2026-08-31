@@ -15,5 +15,4 @@ frontend/node_modules/
 frontend/dist/
 
 # Backend
-backend/logs/audit.log 
-
+backend/logs/auth_audit.log 

@@ -1,6 +1,28 @@
+/*
+ * Color palette inspired by the College Access Navigators (CAN) monarch
+ * butterfly logo: black outlines, orange/red wings, and gold graduation
+ * caps. Every color below is drawn from the 216-color "web safe" palette
+ * (each RGB channel restricted to 00/33/66/99/CC/FF) for consistent
+ * cross-device rendering.
+ */
 :root {
   color-scheme: light;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  --color-orange: #ff6600;
+  --color-orange-dark: #cc3300;
+  --color-red: #cc0000;
+  --color-yellow: #ffcc00;
+  --color-yellow-light: #ffffcc;
+  --color-green: #009900;
+
+  --color-gray-dark: #333333;
+  --color-gray-mid: #666666;
+  --color-gray: #999999;
+  --color-gray-light: #cccccc;
 }
 
 * {
@@ -9,18 +31,23 @@
 
 body {
   margin: 0;
-  background: #f5f6f8;
-  color: #1a1a1a;
+  background: var(--color-white);
+  color: var(--color-black);
 }
 
 button {
   cursor: pointer;
   border: none;
   border-radius: 6px;
-  background: #2f5d50;
-  color: white;
+  background: var(--color-orange);
+  color: var(--color-white);
   padding: 0.6rem 1.2rem;
   font-size: 0.95rem;
+  transition: background 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--color-orange-dark);
 }
 
 button:disabled {
@@ -30,9 +57,15 @@ button:disabled {
 
 input {
   padding: 0.5rem 0.6rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-gray-light);
   border-radius: 6px;
   font-size: 0.95rem;
+  color: var(--color-black);
+}
+
+input:focus {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 1px;
 }
 
 /* Login */
@@ -44,10 +77,11 @@ input {
 }
 
 .login-card {
-  background: white;
+  background: var(--color-white);
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-top: 4px solid var(--color-orange);
   width: 320px;
   display: flex;
   flex-direction: column;
@@ -57,11 +91,12 @@ input {
 .login-card h1 {
   margin: 0;
   font-size: 1.4rem;
+  color: var(--color-black);
 }
 
 .subtitle {
   margin: 0 0 1rem;
-  color: #666;
+  color: var(--color-gray-mid);
 }
 
 .login-card label {
@@ -82,29 +117,37 @@ input {
 
 .sidebar {
   width: 220px;
-  background: #1f2d2a;
-  color: white;
+  background: var(--color-yellow-light);
+  color: var(--color-black);
   padding: 1.5rem 1rem;
+  border-right: 4px solid var(--color-orange);
 }
 
 .brand {
   font-weight: 700;
   font-size: 1.1rem;
   margin-bottom: 2rem;
+  color: var(--color-orange-dark);
 }
 
 .nav-link {
   display: block;
-  color: #d7e4df;
+  color: var(--color-black);
   text-decoration: none;
   padding: 0.5rem 0.6rem;
   border-radius: 6px;
   margin-bottom: 0.25rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-link:hover {
+  background: var(--color-gray-light);
 }
 
 .nav-link.active {
-  background: #2f5d50;
-  color: white;
+  background: var(--color-orange);
+  color: var(--color-black);
+  font-weight: 600;
 }
 
 .main-column {
@@ -119,20 +162,26 @@ input {
   align-items: center;
   gap: 1rem;
   padding: 1rem 2rem;
-  background: white;
-  border-bottom: 1px solid #e5e5e5;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-light);
 }
 
 .topbar-user {
-  color: #444;
+  color: var(--color-gray-dark);
   font-size: 0.9rem;
 }
 
 .btn-link {
   background: none;
-  color: #2f5d50;
+  color: var(--color-orange);
   padding: 0;
   font-weight: 600;
+}
+
+.btn-link:hover:not(:disabled) {
+  background: none;
+  color: var(--color-orange-dark);
+  text-decoration: underline;
 }
 
 .content {
@@ -154,40 +203,46 @@ input {
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: var(--color-white);
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .data-table th,
 .data-table td {
   text-align: left;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-gray-light);
 }
 
 .data-table th {
-  background: #f0f2f1;
+  background: var(--color-black);
   font-size: 0.8rem;
   text-transform: uppercase;
-  color: #555;
+  color: var(--color-white);
 }
 
 /* Student detail */
 .back-link {
-  color: #2f5d50;
+  color: var(--color-orange);
   text-decoration: none;
   font-size: 0.9rem;
 }
 
+.back-link:hover {
+  color: var(--color-orange-dark);
+}
+
 .muted {
-  color: #777;
+  color: var(--color-gray-mid);
 }
 
 .detail-form {
-  background: white;
+  background: var(--color-white);
   padding: 1.5rem;
   border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   max-width: 420px;
   margin-top: 1rem;
 }
@@ -205,24 +260,24 @@ input {
 }
 
 .form-error {
-  color: #b3261e;
+  color: var(--color-red);
   font-size: 0.9rem;
   margin: 0.5rem 0;
 }
 
 .form-success {
-  color: #1e7a34;
+  color: var(--color-green);
   font-size: 0.9rem;
   margin: 0.5rem 0;
 }
 
 /* Reporting */
 .form-notice {
-  background: #eef4f2;
-  border: 1px solid #d3e2dd;
+  background: var(--color-yellow-light);
+  border: 1px solid var(--color-yellow);
   border-radius: 8px;
   padding: 0.75rem 1rem;
-  color: #345247;
+  color: var(--color-gray-dark);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
@@ -235,23 +290,24 @@ input {
 }
 
 .stat-card {
-  background: white;
+  background: var(--color-white);
   border-radius: 8px;
   padding: 1.25rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-top: 3px solid var(--color-orange);
 }
 
 .stat-label {
   font-size: 0.8rem;
   text-transform: uppercase;
-  color: #777;
+  color: var(--color-gray-mid);
   margin-bottom: 0.4rem;
 }
 
 .stat-value {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--color-black);
 }
 
 .stat-delta {
@@ -260,27 +316,29 @@ input {
 }
 
 .stat-delta-up {
-  color: #1e7a34;
+  color: var(--color-green);
 }
 
 .stat-delta-down {
-  color: #b3261e;
+  color: var(--color-red);
 }
 
 .report-section {
-  background: white;
+  background: var(--color-white);
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .report-section h2 {
   margin-top: 0;
+  color: var(--color-black);
 }
 
 .progress-bar {
   position: relative;
-  background: #eee;
+  background: var(--color-gray-light);
   border-radius: 6px;
   height: 20px;
   width: 220px;
@@ -292,14 +350,14 @@ input {
   left: 0;
   top: 0;
   bottom: 0;
-  background: #2f5d50;
+  background: var(--color-orange);
 }
 
 .progress-bar-label {
   position: relative;
   z-index: 1;
   font-size: 0.75rem;
-  color: #1a1a1a;
+  color: var(--color-black);
   padding-left: 0.4rem;
   line-height: 20px;
 }
@@ -312,10 +370,11 @@ input {
 }
 
 .program-card {
-  background: white;
+  background: var(--color-white);
   border-radius: 8px;
   padding: 1.25rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-top: 3px solid var(--color-yellow);
 }
 
 a.program-card {
@@ -326,7 +385,7 @@ a.program-card {
 }
 
 a.program-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .program-card-header {
@@ -339,6 +398,7 @@ a.program-card:hover {
 .program-card-header h2 {
   margin: 0 0 0.5rem;
   font-size: 1.1rem;
+  color: var(--color-black);
 }
 
 .program-meta {
@@ -348,13 +408,14 @@ a.program-card:hover {
 .program-meta dt {
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #777;
+  color: var(--color-gray-mid);
   margin-top: 0.5rem;
 }
 
 .program-meta dd {
   margin: 0.15rem 0 0;
   font-weight: 600;
+  color: var(--color-black);
 }
 
 .badge {
@@ -367,8 +428,8 @@ a.program-card:hover {
 }
 
 .badge-active {
-  background: #e3f0ec;
-  color: #2f5d50;
+  background: var(--color-yellow);
+  color: var(--color-black);
 }
 
 /* Checklists */
@@ -385,6 +446,7 @@ a.program-card:hover {
 
 .checklist-card-header h2 {
   margin: 0 0 0.4rem;
+  color: var(--color-black);
 }
 
 .checklist-tasks {
@@ -398,7 +460,7 @@ a.program-card:hover {
   justify-content: space-between;
   align-items: center;
   padding: 0.4rem 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-gray-light);
 }
 
 .checklist-task label {
@@ -410,11 +472,16 @@ a.program-card:hover {
 
 .checklist-task-done {
   text-decoration: line-through;
-  color: #999;
+  color: var(--color-gray);
 }
 
 .checklist-remove {
   font-size: 0.8rem;
+  color: var(--color-red);
+}
+
+.checklist-remove:hover:not(:disabled) {
+  color: var(--color-orange-dark);
 }
 
 .checklist-add-form {
