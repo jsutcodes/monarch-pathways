@@ -15,9 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN mkdir -p logs staticfiles data
+RUN mkdir -p logs staticfiles data && chmod +x entrypoint.sh
 
 EXPOSE 8000
 
-# Apply migrations, collect static, then serve with gunicorn.
-CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3"]
+CMD ["./entrypoint.sh"]

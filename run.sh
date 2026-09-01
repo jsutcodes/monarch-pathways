@@ -38,6 +38,9 @@ else:
     print('Superuser already exists, skipping creation.')
 "
 
+echo "==> Ensuring demo accounts exist (taylor/taylor, staff/staff, student/student)..."
+python manage.py create_demo_users
+
 echo "==> Installing frontend dependencies..."
 (cd ../frontend && npm install --silent)
 

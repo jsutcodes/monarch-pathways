@@ -85,6 +85,30 @@ The SQLite database and Django log files persist across deploys in the
 named Docker volumes `backend-data` and `backend-logs` (defined in
 `docker-compose.yml`), so redeploys don't wipe student data.
 
+### Default admin login
+
+On first boot (empty database), the backend container automatically creates
+a superuser: **username `admin` / password `admin`** — same default as local
+dev (`run.sh`). This only happens once, the very first time the `backend-data`
+volume is empty; it will **not** recreate or reset the account on later
+redeploys, so if you change the password afterward it sticks.
+
+To use a different default from the start, set `DJANGO_SUPERUSER_USERNAME` /
+`DJANGO_SUPERUSER_EMAIL` / `DJANGO_SUPERUSER_PASSWORD` in `backend/.env`
+(see `backend/.env.example`) before the first deploy — either by adding them
+to the `deploy.yml` env-writing step, or manually in `backend/.env` on the VM
+if you're not using that step's generated file.
+
+**If you're locked out on an already-running deployment** (e.g. it was
+deployed before this superuser-creation step existed, or you changed/lost the
+password), create one directly against the running container instead of
+wiping the volume:
+
+```bash
+docker compose exec backend python manage.py createsuperuser
+```
+
+
 ## 5. Accessing the app
 
 - `docker-compose.yml` publishes the frontend on **`http://<vm-ip>:8080`**.
