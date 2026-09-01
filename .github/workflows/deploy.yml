@@ -1,0 +1,47 @@
+name: Deploy to Homelab
+
+# Runs only after the CI pipeline finishes successfully on main, so we never
+# deploy code that failed lint/tests. Requires a self-hosted runner registered
+# on the homelab VM with the label "homelab" (see docs/deployment.md).
+on:
+  workflow_run:
+    workflows: ["Django CI Pipeline"]
+    branches: [main]
+    types: [completed]
+  # Manual trigger, useful for re-deploying without a new commit.
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: [self-hosted, homelab]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Write backend .env from repo secrets
+        working-directory: backend
+        run: |
+          {
+            echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}"
+            echo "DEBUG=False"
+            echo "ALLOWED_HOSTS=*"
+            echo "DB_PATH=/app/data/db.sqlite3"
+          } > .env
+
+      - name: Build images
+        run: docker compose build
+
+      - name: Deploy stack
+        run: docker compose up -d --remove-orphans
+
+      - name: Prune dangling images
+        run: docker image prune -f
+
+      - name: Show running containers
+        run: docker compose ps

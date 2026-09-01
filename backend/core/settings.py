@@ -1,11 +1,21 @@
 import os
 from pathlib import Path
 
+import environ
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-intern-project-mock-key-12345"
-DEBUG = True
-ALLOWED_HOSTS = ["*"]
+env = environ.Env(
+    DEBUG=(bool, True),
+)
+# .env is optional in local dev (run.sh / manual venv); required only in prod containers.
+env_file = BASE_DIR / ".env"
+if env_file.exists():
+    environ.Env.read_env(str(env_file))
+
+SECRET_KEY = env("SECRET_KEY", default="django-insecure-intern-project-mock-key-12345")
+DEBUG = env.bool("DEBUG", default=True)
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -53,10 +63,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
+# DB_PATH lets the production container point at a mounted volume
+# (e.g. /app/data/db.sqlite3) while local dev keeps using BASE_DIR/db.sqlite3.
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": env("DB_PATH", default=str(BASE_DIR / "db.sqlite3")),
     }
 }
 
@@ -94,4 +106,5 @@ LOGGING = {
 }
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
