@@ -14,10 +14,18 @@ class User(AbstractUser):
     @property
     def role(self):
         """
-        Resolves access privileges strictly mapped by group membership names
+        Resolves access privileges mapped by group membership names
         ('Admin', 'Staff', 'Reporting', 'Student'). See
         `authentication.group_setup` for the permissions each group grants.
+
+        Superusers always resolve to "Admin" regardless of their group
+        membership, matching the `IsAdminGroupOrSuperuser` permission used
+        elsewhere (e.g. demo accounts like `taylor` are superusers kept in
+        the "Staff" group for its model permissions, but should still get
+        full Admin-level access/UI).
         """
+        if self.is_superuser:
+            return "Admin"
         group = self.groups.first()
         return group.name if group else "No Role Assigned"
 

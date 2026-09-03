@@ -6,7 +6,7 @@ import { pickChecklistForStudent } from "../data/checklists";
 import { BOGUS_SUMMARY_STATS } from "../data/reportingStats";
 
 export default function DashboardPage() {
-  const { username, role } = useAuth();
+  const { username, effectiveRole } = useAuth();
 
   return (
     <div>
@@ -15,13 +15,13 @@ export default function DashboardPage() {
         <span className="muted">Welcome back, {username}</span>
       </div>
 
-      {role === "Student" && <StudentDashboard />}
-      {role === "Staff" && <StaffDashboard />}
-      {role === "Admin" && <AdminDashboard />}
-      {role === "Reporting" && <ReportingDashboard />}
-      {!role && <p>Loading your dashboard…</p>}
-      {role &&
-        !["Student", "Staff", "Admin", "Reporting"].includes(role) && (
+      {effectiveRole === "Student" && <StudentDashboard />}
+      {effectiveRole === "Staff" && <StaffDashboard />}
+      {effectiveRole === "Admin" && <AdminDashboard />}
+      {effectiveRole === "Reporting" && <ReportingDashboard />}
+      {!effectiveRole && <p>Loading your dashboard…</p>}
+      {effectiveRole &&
+        !["Student", "Staff", "Admin", "Reporting"].includes(effectiveRole) && (
           <UnassignedDashboard />
         )}
     </div>

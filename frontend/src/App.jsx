@@ -1,7 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import RoleRoute from "./components/RoleRoute";
 import Layout from "./components/Layout";
+import { ROUTE_ROLES } from "./config/roles";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import StudentsListPage from "./pages/StudentsListPage";
@@ -23,12 +25,54 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="/students" element={<StudentsListPage />} />
-          <Route path="/students/:id" element={<StudentDetailPage />} />
-          <Route path="/staff" element={<StaffListPage />} />
-          <Route path="/reporting" element={<ReportingPage />} />
-          <Route path="/programs" element={<ProgramsPage />} />
-          <Route path="/checklists" element={<ChecklistsPage />} />
+          <Route
+            path="/students"
+            element={
+              <RoleRoute allow={ROUTE_ROLES["/students"]}>
+                <StudentsListPage />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="/students/:id"
+            element={
+              <RoleRoute allow={ROUTE_ROLES["/students/:id"]}>
+                <StudentDetailPage />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="/staff"
+            element={
+              <RoleRoute allow={ROUTE_ROLES["/staff"]}>
+                <StaffListPage />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="/reporting"
+            element={
+              <RoleRoute allow={ROUTE_ROLES["/reporting"]}>
+                <ReportingPage />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="/programs"
+            element={
+              <RoleRoute allow={ROUTE_ROLES["/programs"]}>
+                <ProgramsPage />
+              </RoleRoute>
+            }
+          />
+          <Route
+            path="/checklists"
+            element={
+              <RoleRoute allow={ROUTE_ROLES["/checklists"]}>
+                <ChecklistsPage />
+              </RoleRoute>
+            }
+          />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Route>

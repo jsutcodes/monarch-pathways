@@ -17,6 +17,10 @@ export function AuthProvider({ children }) {
     () => localStorage.getItem(USERNAME_KEY) || null
   );
   const [role, setRole] = useState(() => localStorage.getItem(ROLE_KEY) || null);
+  // Lets an Admin preview the app as another role (Staff/Reporting/Student)
+  // without actually changing their account's group membership. Only ever
+  // applied when the real role is "Admin"; not persisted across sessions.
+  const [viewAsRole, setViewAsRole] = useState(null);
 
   // If the stored access token has already expired on load, treat the
   // user as logged out so the UI doesn't show a stale session.
@@ -64,13 +68,27 @@ export function AuthProvider({ children }) {
     localStorage.removeItem(ROLE_KEY);
     setUsername(null);
     setRole(null);
+    setViewAsRole(null);
   }
 
   const isAuthenticated = Boolean(username && getAccessToken());
 
+  // Only Admins can spoof their view; everyone else always sees their own
+  // real role, no matter what viewAsRole happens to hold.
+  const effectiveRole = role === "Admin" && viewAsRole ? viewAsRole : role;
+
   return (
     <AuthContext.Provider
-      value={{ username, role, isAuthenticated, login, logout }}
+      value={{
+        username,
+        role,
+        effectiveRole,
+        viewAsRole,
+        setViewAsRole,
+        isAuthenticated,
+        login,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
